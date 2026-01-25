@@ -1,0 +1,26 @@
+--Create database for analytics (if not exists)
+CREATE DATABASE IF NOT EXISTS amazon_analytics;
+
+-- Switch to analytics database
+USE amazon_analytics;
+
+--Drop table if you want to recreate safely
+DROP TABLE IF EXISTS appliance_reviews_curated;
+
+-- Create EXTERNAL table on curated Parquet data
+CREATE EXTERNAL TABLE IF NOT EXISTS appliance_reviews_curated (
+    asin STRING,
+    reviewerID STRING,
+    verified BOOLEAN,
+    overall DOUBLE,
+    reviewText STRING,
+    summary STRING,
+    unixReviewTime BIGINT,
+    title STRING,
+    brand STRING,
+    category ARRAY<STRING>
+)
+STORED AS PARQUET
+LOCATION '/user/talentum/amazon-review-analytics/big-data-pipeline/data/processed/appliance_reviews_curated';
+
+
